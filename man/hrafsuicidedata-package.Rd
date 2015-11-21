@@ -32,7 +32,7 @@ Maintainer: Ed Hagen <ehagen@gmail.com>
 
 }
 \references{
-Syme K, Hagen EH and Garfield Z. Testing the inclusive fitness model of suicidal behavior vs. the costly signaling model against the ethnographic record.
+Syme K, Hagen EH and Garfield Z. Testing the bargaining vs. inclusive fitness models of suicidal behavior against the ethnographic record. \link{http://dx.doi.org/10.1016/j.evolhumbehav.2015.10.005}
 }
 \keyword{ package }
 \seealso{
