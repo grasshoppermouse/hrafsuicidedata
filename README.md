@@ -1,7 +1,7 @@
 # hrafsuicidedata
 R data package for:
 
-Syme KL, Garfield ZH and Hagen EH. Testing the bargaining vs. inclusive fitness models of suicidal behavior against the ethnographic record.
+Syme KL, Garfield ZH and Hagen EH. Testing the bargaining vs. inclusive fitness models of suicidal behavior against the ethnographic record. http://dx.doi.org/10.1016/j.evolhumbehav.2015.10.005
 
 To install:
 
