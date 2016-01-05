@@ -1,0 +1,62 @@
+Name	Culture code	Region	Location	Probability sample	Position	Documents
+Akan	FE12	West Africa	Ghana and Cote d'Ivoire	True	8.0,-2.0	18
+Amhara	MP05	East Africa	Ethiopia	True	11.35,37.98	1
+Andamans	AZ02	South Asia	Bay of Bengal	True	12.0,92.5	1
+Aymara	SF05	South America--Andes	Bolivia	True	-15.75,-69.0	4
+Azande	FO07	Central Africa	Sudan, CAR, Democratic Republic of the Congo	True	4.5,21.0	3
+Bahia Brazilians	SO11	South America	Salvador (Bahia), Brazil	True	-12.5,-39.0	2
+Bakairi	SP07	South America Amazon	Upper Xingu River	True	-15.5,-56.0	1
+Bemba	FQ05	Southern Africa	Northern Zambia	True	-12.0,31.0	2
+Blackfoot	NF06	North America	Alberta, Montana	True	55.0,-115.0	13
+Central Thai	AO07	Southeast Asia	Central and southern Thailand	True	13.5,102.0	4
+Chukchee	RY02	Northeast Asia	Eastern Siberia, Russia	True	66.0,151.0	2
+Chuuk	OR19	Oceania-Micronesia	Chuuk State	True	7.0,151.5	11
+Copper Inuit	ND08	North America-Arctic and subarctic	Victoria Island and environs	True	69.0,-111.5	6
+Dogon	FA16	West Africa	Mali, Burkina Faso	True	14.0,-3.0	3
+Eastern Toraja	OG11	Southeast Asia	Celebes, Indonesia	True	-2.0,121.0	2
+Ganda	FK07	East Africa	Uganda	True	0.5,33.0	2
+Garo	AR05	South Asia	Garo Hills, Meghalaya, India	True	25.5,90.0	4
+Guarani	SM04	South America	Paraguay, Argentina, Brazil	True	-26.0,-56.0	1
+Hausa	MS12	West Africa	Nigeria and Niger	True	12.5,8.0	1
+Highland Scots	ES10	Western Europe	UK	True	56.0,-5.0	2
+Hopi	NT09	North America	Arizona	True	35.5,-110.5	6
+Iban	OC06	Southeast Asia	Malaysia	True	1.0,114.0	3
+Ifugao	OA19	Southeast Asia	Philippines	True	17.0,121.0	1
+Iroquois	NM09	North America	North East Coast	True	43.0,-75.0	5
+Kanuri	MS14	West Africa	Nigeria	True	12.0,12.0	1
+Kapauku	OJ29	Oceania-Melanesia	Papua New Guinea	True	-5.0925657,140.71109209999997	1
+Klamath	NR10	North America	Oregon	True	42.5,-121.5	1
+Kogi	SC07	South America	Columbia	True	11.0,-73.0	2
+Korea	AA01	East Asia	Korea	True	38.0,128.0	14
+Kuna	SB05	Middle American, Carribbean	Panama	True	9.5,-79.0	1
+Kurds	MA11	Eurasia	Armenia	True	37.0,44.0	2
+Lau Fijans	OQ06	Oceania-Melanesia	Lau Fiji Islands	True	-16.43,-178.15	1
+Libyan Bedouin	MT09	North Africa	Libya and Egypt	True	26.0,24.0	2
+Lozi	FQ09	Southern Africa	Zambia	True	-15.0,23.0	3
+Maasai	FL12	East Africa	Kenya, Tanzania	True	-1.1455180623721963,34.861104549999936	2
+Mataco	SI07	Southern South America	Argentina	True	-24.0,-60.0	4
+Mbuti	FO04	Central Africa	Democratic Republic of the Congo	True	1.5,28.0	1
+Ojibwa	NG06	North America	Canada	True	46.0,-80.0	13
+Ona	SH04	Southern South America	Argentina	True	54.5,-68.0	2
+Pawnee	NQ18	North America	United States	True	41.0,-99.0	4
+Saami	EP04	Europe--Scandinavia	Finland	True	64.5,25.0	3
+Santal	AW42	South Asia	India	True	23.0,85.5	4
+Saramaka	SR15	South America	Suriname	True	4.5,-56.0	4
+Serbs	EF06	Southern Europe	Serbia and Montenegro	True	43.5,21.5	3
+Shluh	MW11	North Africa	Morocco	True	30.5,-8.0	2
+Sinhalese	AX04	South Asia	Sri Lanka	True	8.0,80.0	1
+Somali	MO04	East Africa	Somalia	True	5.15,46.2	1
+Taiwan Hokkien	AD05	East Asia	Taiwan	True	24.0,121.0	14
+Tarahumara	NU33	Middle American, Carribbean	Mexico	True	28.0,-107.0	3
+Tikopia	OT11	Oceania-Melanesia	Solomon Islands	True	-12.0,169.0	14
+Tiv	FF57	West Africa	Nigeria	True	7.0,9.0	4
+Tlingit	NA12	North America	Alaska	True	57.0,-133.0	9
+Trobriands	OL06	Oceania-Melanesia	Papua New Guinea	True	-8.5,151.0	7
+Tukano/Ticuna	SQ19	South America Amazon	Brazil	True	0.5,-70.0	6
+Tzeltal	NV09	Middle American, Carribbean	Mexico	True	16.5,-92.5	1
+Wolof	MS30	West Africa	Gambia	True	14.5,-14.5	3
+Yakut	RV02	North Asia	Russia	True	63.0,130.0	1
+Bagisu	FK13	East Africa	Mount Elgon in eastern Uganda	False	1.0,34.5	4
+Banyoro	FK11	East Africa	Uganda	False	1.7,31.0	5
+Bena	FN31	East Africa	Tanzania	False	-9.25,35.0	2
+Bengali	AW69	South Asia	Bengal region of the Indian Subcontinent	False	23.5,89.5	4
