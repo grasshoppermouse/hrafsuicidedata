@@ -552,4 +552,18 @@ coding2 <- d # Not in public data package
 # Apology data
 apology <- read_csv('data-raw/KristenApologyRevise.csv', col_types = 'ccccciiiiicii') # Because ID has chr values
 
+##Entry errors
+apology$transgression[apology$id == 446] = '0'
+apology$transgression[apology$id == 766] = '0'
+
+##Remove duplicates and blank data
+apology <- apology[apology$id != 634,]
+apology = apology[apology$id != 1788,]
+apology = apology[apology$id != 1894,]
+apology = apology[apology$id != 1903,]
+apology = apology[apology$id != 'g',]
+
+#Remove 1909 from apology
+apology <- apology[apology$id != 1909,]
+
 save(coding, coding2, apology, file = "data/coding.RData", compress = "xz")
