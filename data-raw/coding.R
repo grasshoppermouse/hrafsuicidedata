@@ -566,4 +566,8 @@ apology = apology[apology$id != 'g',]
 #Remove 1909 from apology
 apology <- apology[apology$id != 1909,]
 
-save(coding, coding2, apology, file = "data/coding.RData", compress = "xz")
+transgression <- read.csv("data-raw/transgression_data.csv")
+transgression <- transgression[transgression$id !=1909,]
+
+
+save(coding, coding2, apology, transgression, file = "data/coding.RData", compress = "xz")
