@@ -553,8 +553,8 @@ coding2 <- d # Not in public data package
 apology <- read_csv('data-raw/KristenApologyRevise.csv', col_types = 'ccccciiiiicii') # Because ID has chr values
 
 ##Entry errors
-apology$transgression[apology$id == 446] = '0'
-apology$transgression[apology$id == 766] = '0'
+apology$transgression[apology$id == 446] = 0
+apology$transgression[apology$id == 766] = 0
 
 ##Remove duplicates and blank data
 apology <- apology[apology$id != 634,]
