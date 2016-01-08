@@ -566,7 +566,7 @@ apology = apology[apology$id != 'g',]
 #Remove 1909 from apology
 apology <- apology[apology$id != 1909,]
 
-transgression <- read.csv("data-raw/transgression_data.csv")
+transgression <- read_csv("data-raw/transgression_data.csv", col_types = 'ccccccci')
 transgression <- transgression[transgression$id !=1909,]
 
 
