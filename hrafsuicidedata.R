@@ -11,3 +11,4 @@ apology = apology[apology$id != 1894,]
 apology = apology[apology$id != 1903,]
 apology = apology[apology$id != g,]
 
+##Need to remove 1905, 1906, 1908 mistakenly duplicated
