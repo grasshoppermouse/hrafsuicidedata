@@ -533,6 +533,9 @@ d$age.category[d$age_estimate>=20] = 'Adult'
 d$age.category[d$age_estimate>=60] = 'Elderly'
 d$age.category = factor(d$age.category, levels=c('Child', 'Adolescent', 'Adult', 'Elderly'))
 
+#Remove 634 from d
+d = d[d$id != '634',]
+
 # Select and reorder columns
 
 coding <- d %>%
@@ -577,9 +580,11 @@ apology = apology[apology$id != 411,]
 apology = apology[apology$id != 463,]
 apology = apology[apology$id != 468,]
 apology = apology[apology$id != 'm',]
+apology = apology[apology$id != 'l',]
 transgression <- transgression[transgression$id != 382,]
 transgression = transgression[transgression$id != 411,]
 transgression = transgression[transgression$id != 463,]
 transgression = transgression[transgression$id != 468,]
 transgression = transgression[transgression$id != 'm',]
+
 save(coding, coding2, apology, transgression, file = "data/coding.RData", compress = "xz")
