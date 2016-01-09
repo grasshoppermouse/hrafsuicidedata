@@ -562,12 +562,24 @@ apology = apology[apology$id != 1788,]
 apology = apology[apology$id != 1894,]
 apology = apology[apology$id != 1903,]
 apology = apology[apology$id != 'g',]
+apology = apology[-c(466, 467,468),]
 
 #Remove 1909 from apology
 apology <- apology[apology$id != 1909,]
 
 transgression <- read_csv("data-raw/transgression_data.csv", col_types = 'ccccccci')
 transgression <- transgression[transgression$id !=1909,]
+transgression <-transgression[-c(478, 479, 480, 481, 482, 483),]
 
-
+#Remove from apology and transgression, not in original coding
+apology <- apology[apology$id != 382,]
+apology = apology[apology$id != 411,]
+apology = apology[apology$id != 463,]
+apology = apology[apology$id != 468,]
+apology = apology[apology$id != 'm',]
+transgression <- transgression[transgression$id != 382,]
+transgression = transgression[transgression$id != 411,]
+transgression = transgression[transgression$id != 463,]
+transgression = transgression[transgression$id != 468,]
+transgression = transgression[transgression$id != 'm',]
 save(coding, coding2, apology, transgression, file = "data/coding.RData", compress = "xz")
