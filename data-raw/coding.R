@@ -558,6 +558,7 @@ apology <- read_csv('data-raw/KristenApologyRevise.csv', col_types = 'ccccciiiii
 ##Entry errors
 apology$transgression[apology$id == 446] = 0
 apology$transgression[apology$id == 766] = 0
+apology$id[apology$id=="I"] = "i"
 
 ##Remove duplicates and blank data
 apology <- apology[apology$id != 634,]
@@ -572,7 +573,6 @@ apology <- apology[apology$id != 1909,]
 
 transgression <- read_csv("data-raw/transgression_data.csv", col_types = 'ccccccci')
 transgression <- transgression[transgression$id !=1909,]
-transgression <-transgression[-c(478, 479, 480, 481, 482, 483),]
 
 #Remove from apology and transgression, not in original coding
 apology <- apology[apology$id != 382,]
