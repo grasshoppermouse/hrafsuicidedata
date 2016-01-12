@@ -488,9 +488,14 @@ names(sgh) = selectvars
 # First duplicate these rows which actually had two cases/cultural models
 # that needed to be coded separately
 
-r1655b = coding[coding$id==1655,]
-r1906b = coding[coding$id==1906,]
+r1655b = coding[coding$id=='1655',]
+r1655b$id = '1655b'
+coding$Sex[coding$id=='1655'] = 'female'
+coding$Sex2[coding$id=='1655'] = 'female'
 
+r1906b = coding[coding$id=='1906',]
+r1906b$id = '1906b'
+r1906b$content_type = 'Case'
 coding = rbind(coding, r1655b, r1906b)
 
 # Delete these rows
