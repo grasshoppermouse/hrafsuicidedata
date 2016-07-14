@@ -608,7 +608,7 @@ coltypes <- c(id = 'text',
               transgression_type = 'text', 
               unjustly_accused_punished = 'numeric')
 
-apology<-read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
+apology <- read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
 
 #check coding is identical
 syme <- apology[apology$coder == 'syme', -c(2, 5)]
@@ -625,4 +625,19 @@ apology_unreconciled <- rbind(apology_unreconciled, apology[apology$coder=='cals
 syme <- apology_unreconciled[apology_unreconciled$coder=='syme',]
 calsbeek <- apology_unreconciled[apology_unreconciled$coder=='calsbeek',]
 apology <- apology[apology$coder == 'syme',-2]
-save(coding, coding2, apology, apology_unreconciled, file = "data/coding.RData", compress = "xz")
+apology_raw <- apology
+# Now convert apology_raw, which has -1 values, to apology, which will only have 0's and 1's
+
+apology$culpable <- apology$unjustly_accused_punished == -1
+apology$culpable <- as.numeric(apology$culpable)
+apology$unjustly_accused_punished[apology$unjustly_accused_punished == -1] <- 0 
+
+lapply(apology, function(x){sum(x==-1)})
+
+apology$forgiven[apology$forgiven == -1] <- 0
+apology$guilt[apology$guilt == -1] <- 0
+apology$motive_apologize[apology$motive_apologize == -1] <- 0
+apology$punishment[apology$punishment == -1] <- 0
+
+
+save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
