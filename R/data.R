@@ -18,3 +18,24 @@
 #' information from matching SCCS cultures.
 #'
 "cultures"
+
+#' Coding of 11 variables of the apology model {0, 1}.
+#' Reconciled version.
+#' 
+#' Kristen Syme and Caitlin Calsbeek
+#' 
+"apology"
+
+#' Coding of 10 variables of the apology model with {-1, 0, 1}.
+#' Reconciled version.
+#' 
+#' Kristen Syme and Caitlin Calsbeek
+#' 
+"apology_raw"
+
+#' Coding of 10 variables of the apology model with {-1, 0, 1}.
+#' Caitlin and Kristen coding (unreconciled).
+#' 
+#' Kristen Syme and Caitlin Calsbeek
+#' 
+"apology_unreconciled"
