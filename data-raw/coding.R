@@ -2,6 +2,7 @@
 library(dplyr)
 library(tidyr)
 library(readr)
+library(readxl)
 
 # Input suicide coding data
 
@@ -557,39 +558,71 @@ coding <- d %>%
 
 coding2 <- d # Not in public data package
 
-# Apology data
-apology <- read_csv('data-raw/KristenApologyRevise.csv', col_types = 'ccccciiiiicii') # Because ID has chr values
+# # Apology data
+# apology <- read_csv('data-raw/KristenApologyRevise.csv', col_types = 'ccccciiiiicii') # Because ID has chr values
+# 
+# ##Entry errors
+# apology$transgression[apology$id == 446] = 0
+# apology$transgression[apology$id == 766] = 0
+# apology$id[apology$id=="I"] = "i"
+# 
+# ##Remove duplicates and blank data
+# apology <- apology[apology$id != 634,]
+# apology = apology[apology$id != 1788,]
+# apology = apology[apology$id != 1894,]
+# apology = apology[apology$id != 1903,]
+# apology = apology[apology$id != 'g',]
+# apology = apology[-c(466, 467,468),]
+# 
+# #Remove 1909 from apology
+# apology <- apology[apology$id != 1909,]
+# 
+# transgression <- read_csv("data-raw/transgression_data.csv", col_types = 'ccccccci')
+# transgression <- transgression[transgression$id !=1909,]
+# 
+# #Remove from apology and transgression, not in original coding
+# apology <- apology[apology$id != 382,]
+# apology = apology[apology$id != 411,]
+# apology = apology[apology$id != 463,]
+# apology = apology[apology$id != 468,]
+# apology = apology[apology$id != 'm',]
+# apology = apology[apology$id != 'l',]
+# transgression <- transgression[transgression$id != 382,]
+# transgression = transgression[transgression$id != 411,]
+# transgression = transgression[transgression$id != 463,]
+# transgression = transgression[transgression$id != 468,]
+# transgression = transgression[transgression$id != 'm',]
+coltypes <- c(id = 'text', 
+              coder = 'text', 
+              content_type = 'text', 
+              culture = 'text', 
+              extract = 'text',
+              forgiven = 'numeric', 
+              guilt = 'numeric', 
+              motive_apologize = 'numeric', 
+              punishment = 'numeric', 
+              punishment_threat = 'numeric', 
+              punishment_type = 'text', 
+              shame = 'numeric', 
+              transgression = 'numeric', 
+              transgression_type = 'text', 
+              unjustly_accused_punished = 'numeric')
 
-##Entry errors
-apology$transgression[apology$id == 446] = 0
-apology$transgression[apology$id == 766] = 0
-apology$id[apology$id=="I"] = "i"
+apology<-read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
 
-##Remove duplicates and blank data
-apology <- apology[apology$id != 634,]
-apology = apology[apology$id != 1788,]
-apology = apology[apology$id != 1894,]
-apology = apology[apology$id != 1903,]
-apology = apology[apology$id != 'g',]
-apology = apology[-c(466, 467,468),]
+#check coding is identical
+syme <- apology[apology$coder == 'syme', -c(2, 5)]
+calsbeek <- apology[apology$coder == 'calsbeek', -c(2, 5)]
+dif <- anti_join(syme, calsbeek)
+which(syme[[13]]!=calsbeek[[13]])
 
-#Remove 1909 from apology
-apology <- apology[apology$id != 1909,]
-
-transgression <- read_csv("data-raw/transgression_data.csv", col_types = 'ccccccci')
-transgression <- transgression[transgression$id !=1909,]
-
-#Remove from apology and transgression, not in original coding
-apology <- apology[apology$id != 382,]
-apology = apology[apology$id != 411,]
-apology = apology[apology$id != 463,]
-apology = apology[apology$id != 468,]
-apology = apology[apology$id != 'm',]
-apology = apology[apology$id != 'l',]
-transgression <- transgression[transgression$id != 382,]
-transgression = transgression[transgression$id != 411,]
-transgression = transgression[transgression$id != 463,]
-transgression = transgression[transgression$id != 468,]
-transgression = transgression[transgression$id != 'm',]
-
-save(coding, coding2, apology, transgression, file = "data/coding.RData", compress = "xz")
+apology_unreconciled<-read_csv('data-raw/CandK.csv')
+apology_unreconciled <- apology_unreconciled[apology_unreconciled$id!='382', ]
+apology_unreconciled <- apology_unreconciled[apology_unreconciled$id!='411', ]
+apology_unreconciled <- apology_unreconciled[apology_unreconciled$id!='463', ]
+apology_unreconciled <- apology_unreconciled[apology_unreconciled$id!='468', ]
+apology_unreconciled <- rbind(apology_unreconciled, apology[apology$coder=='calsbeek' & apology$id=='634',])
+syme <- apology_unreconciled[apology_unreconciled$coder=='syme',]
+calsbeek <- apology_unreconciled[apology_unreconciled$coder=='calsbeek',]
+apology <- apology[apology$coder == 'syme',-2]
+save(coding, coding2, apology, apology_unreconciled, file = "data/coding.RData", compress = "xz")
