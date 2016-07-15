@@ -625,4 +625,5 @@ apology_unreconciled <- rbind(apology_unreconciled, apology[apology$coder=='cals
 syme <- apology_unreconciled[apology_unreconciled$coder=='syme',]
 calsbeek <- apology_unreconciled[apology_unreconciled$coder=='calsbeek',]
 apology <- apology[apology$coder == 'syme',-2]
+caitlin_cause_types <- read_csv('data-raw/CaitlinCauseTypes.csv')
 save(coding, coding2, apology, apology_unreconciled, file = "data/coding.RData", compress = "xz")
