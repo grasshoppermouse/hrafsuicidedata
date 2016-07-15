@@ -643,7 +643,25 @@ apology$motive_apologize[apology$motive_apologize == -1] <- 0
 apology$punishment[apology$punishment == -1] <- 0
 
 caitlin_cause_types <-read_csv('data-raw/CaitlinCauseTypes.csv')
-kristen_cause_types <- d$Cause_type2
+kristen_cause_types <- d[c('id', 'Cause_type2')]
+
+tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types, by='id')
+
+library(stringr)
+
+cause_types <- function(v1, v2){
+    total_causes <- c()
+    matching_causes <- c()
+    for (i in 1:length(v1)){
+        c1 <- str_split(v1[i], ',')[[1]]
+        c2 <- str_split(v2[i], ',')[[1]]
+        total_causes <- c(total_causes, length(union(c1, c2)))
+        matching_causes <- c(matching_causes, length(intersect(c1, c2)))
+    }
+    return(list(total_causes=total_causes, matching_causes=matching_causes))
+}
+
+x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
 
 save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
