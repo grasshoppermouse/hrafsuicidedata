@@ -644,8 +644,9 @@ apology$punishment[apology$punishment == -1] <- 0
 
 caitlin_cause_types <-read_csv('data-raw/CaitlinCauseTypes.csv')
 kristen_cause_types <- d[c('id', 'Cause_type2')]
+kristen_cause_types_clean <- read_csv(('data-raw/kristen_cause_types.csv'))
 
-tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types, by='id')
+tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types_clean, by='id')
 
 library(stringr)
 
@@ -662,6 +663,6 @@ cause_types <- function(v1, v2){
 }
 
 x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
-
+#a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
 save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
