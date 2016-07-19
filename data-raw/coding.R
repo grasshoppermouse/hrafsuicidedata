@@ -653,16 +653,56 @@ library(stringr)
 cause_types <- function(v1, v2){
     total_causes <- c()
     matching_causes <- c()
+    l1 <- list()
+    l2 <- list()
     for (i in 1:length(v1)){
         c1 <- str_split(v1[i], ',')[[1]]
         c2 <- str_split(v2[i], ',')[[1]]
+        l1[[i]] <- c1
+        l2[[i]] <- c2
         total_causes <- c(total_causes, length(union(c1, c2)))
         matching_causes <- c(matching_causes, length(intersect(c1, c2)))
     }
-    return(list(total_causes=total_causes, matching_causes=matching_causes))
+    return(list(total_causes=total_causes, matching_causes=matching_causes, l1=l1, l2=l2))
 }
 
 x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
+
+rcd <- function(mylist,original,newc){
+    for (i in 1: length(mylist)){
+        a <- mylist[[i]]
+        x <- match(original,a)
+        if (!is.na(x)) a[x] <- newc
+        mylist[[i]] <- a
+    }
+    return(mylist)
+}
+x$l1 <- rcd(x$l1, 'fear of supernatural', 'spirit_attack')
+x$l1 <- rcd(x$l2, 'fear of supernatural', 'spirit_attack')
+x$l1 <- rcd(x$l1, 'family tension', 'interpersonal_confli')
+x$l2 <- rcd(x$l2, 'family tension', 'interpersonal_confli')
+x$l1 <- rcd(x$l1, 'emotional distress', 'psychological distre')
+x$l2 <- rcd(x$l2, 'emotional distress', 'psychological distre')
+x$l1 <- rcd(x$l1, 'mental illness', 'psychological distre')
+x$l2 <- rcd(x$l2, 'mental illness', 'psychological distre')
+x$l1 <- rcd(x$l1, 'loneliness', 'alienation')
+x$l2 <- rcd(x$l2, 'loneliness', 'alienation')
+x$l1 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
+x$l2 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
+x$l1 <- rcd(x$l1, 'fear of rape', 'rape')
+x$l2 <- rcd(x$l1, 'fear of rape', 'rape')
+x$l1 <- rcd(x$l1, 'fear of illness disf', 'illness')
+x$l2 <- rcd(x$l1, 'fear of illness disf', 'illness')
+x$l1 <- rcd(x$l1, 'gambling loss', 'resource_loss')
+x$l2 <- rcd(x$l1, 'gambling loss', 'resource_loss')
+x$l1 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
+x$l2 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
+x$l1 <- rcd(x$l1, 'senility', 'old_age_illness')
+x$l2 <- rcd(x$l1, 'senility', 'old_age_illness')
+x$l1 <- rcd(x$l1, 'infirmity', 'old_age_illness')
+x$l2 <- rcd(x$l1, 'infirmity', 'old_age_illness')
+
+
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
 save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
