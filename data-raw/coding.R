@@ -720,8 +720,26 @@ x$l1 <- rcd(x$l1, 'failure or sense of ', 'failure or sense of')
 x$l2 <- rcd(x$l2, 'failure or sense of ', 'failure or sense of')
 
 #Remove cause types that are redundant or not informative
-x$l1 <- x$l1[x$l1 != c('failed expectations', 'disconnected from fa', 'separation from love', 'significant loss of', 'accus_commit_wrongdo', 'rejection', 'ridicule', 'group_conflict', 'interpersonal_confli', 'family shame', 'bad luck', 'commit adultry', 'imprisonment')]
-x$l2 <- x$l2[x$l2 != c('failed expectations', 'disconnected from fa', 'separation from love', 'significant loss of', 'accus_commit_wrongdo', 'rejection', 'ridicule', 'group_conflict', 'interpersonal_confli', 'family shame', 'bad luck', 'commit adultry', 'imprisonment')]
+
+bad_causetypes <- c('failed expectations', 
+                    'disconnected from fa', 
+                    'separation from love', 
+                    'significant loss of', 
+                    'significant loss of ', # Note the extra space
+                    'accus_commit_wrongdo', 
+                    'rejection', 
+                    'ridicule', 
+                    'group_conflict', 
+                    'interpersonal_confli', 
+                    'family shame', 
+                    'bad luck', 
+                    'commit adultry', 
+                    'imprisonment')
+
+x$l1 <- lapply(x$l1, function(x) setdiff(x, bad_causetypes))
+x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
+
+# Something else
 
 y <- ctcomparison(x)
 c1 <- 0
