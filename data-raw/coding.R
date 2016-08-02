@@ -719,7 +719,7 @@ x$l2 <- rcd(x$l2, 'commit adultry', 'commit adultery')
 x$l1 <- rcd(x$l1, 'failure or sense of ', 'failure or sense of')
 x$l2 <- rcd(x$l2, 'failure or sense of ', 'failure or sense of')
 
-#Remove cause types that are redundant or not informative
+# Remove cause types that are redundant or not informative
 
 bad_causetypes <- c('failed expectations', 
                     'disconnected from fa', 
@@ -738,6 +738,22 @@ bad_causetypes <- c('failed expectations',
 
 x$l1 <- lapply(x$l1, function(x) setdiff(x, bad_causetypes))
 x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
+
+# Cause groups
+
+# cause_groups <- list(
+#     'mating' = c('incest', 'unfaithful spouse', 'rape', 'failed romantic rela', 'disappointment in ma', 'divorce or attempted', 'thwarted marriage', 'forced marriage', 'bring in cowife'),
+#     'reproduction' = c('pregnancy', 'loss of children', 'inability to have ch'),
+#     'resources' = c('natural disaster', 'owed debt', 'fear of loss', 'resource_loss')
+#     )
+
+# left: original cause type. right: new, more general cause type
+cause_groups <- c(
+    'incest' = 'mating',
+    'unfaithful spouse' = 'mating',
+)
+
+a <- lapply(x$l1[1:3], function(x) unique(cause_groups[x]))
 
 # Something else
 
