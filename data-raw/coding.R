@@ -646,13 +646,14 @@ caitlin_cause_types <-read_csv('data-raw/CaitlinCauseTypes.csv')
 kristen_cause_types <- d[c('id', 'Cause_type2')]
 kristen_cause_types_clean <- read_csv(('data-raw/kristen_cause_types.csv'))
 
+
 tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types_clean, by='id')
 
 library(stringr)
 
 cause_types <- function(v1, v2){
-    total_causes <- c()
-    matching_causes <- c()
+    #total_causes <- c()
+    #matching_causes <- c()
     l1 <- list()
     l2 <- list()
     for (i in 1:length(v1)){
@@ -660,13 +661,21 @@ cause_types <- function(v1, v2){
         c2 <- str_split(v2[i], ',')[[1]]
         l1[[i]] <- c1
         l2[[i]] <- c2
-        total_causes <- c(total_causes, length(union(c1, c2)))
-        matching_causes <- c(matching_causes, length(intersect(c1, c2)))
+        #total_causes <- c(total_causes, length(union(c1, c2)))
+        #matching_causes <- c(matching_causes, length(intersect(c1, c2)))
     }
-    return(list(total_causes=total_causes, matching_causes=matching_causes, l1=l1, l2=l2))
+    return(list(l1=l1, l2=l2))
+}
+ctcomparison <- function(x){
+    total_causes <- c()
+    matching_causes <- c()
+    for (i in 1:length(x$l1)){
+        total_causes <- c(total_causes, length(union(x$l1[[i]], x$l2[[i]])))
+        matching_causes <- c(matching_causes, length(intersect(x$l1[[i]], x$l2[[i]])))
+    }
+    return(data.frame(total_causes=total_causes, matching_causes=matching_causes))
 }
 
-x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
 
 rcd <- function(mylist,original,newc){
     for (i in 1: length(mylist)){
@@ -677,8 +686,10 @@ rcd <- function(mylist,original,newc){
     }
     return(mylist)
 }
+
+x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
 x$l1 <- rcd(x$l1, 'fear of supernatural', 'spirit_attack')
-x$l1 <- rcd(x$l2, 'fear of supernatural', 'spirit_attack')
+x$l2 <- rcd(x$l2, 'fear of supernatural', 'spirit_attack')
 x$l1 <- rcd(x$l1, 'family tension', 'interpersonal_confli')
 x$l2 <- rcd(x$l2, 'family tension', 'interpersonal_confli')
 x$l1 <- rcd(x$l1, 'emotional distress', 'psychological distre')
@@ -688,19 +699,55 @@ x$l2 <- rcd(x$l2, 'mental illness', 'psychological distre')
 x$l1 <- rcd(x$l1, 'loneliness', 'alienation')
 x$l2 <- rcd(x$l2, 'loneliness', 'alienation')
 x$l1 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
-x$l2 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
+x$l2 <- rcd(x$l2, 'fear of imprisonment', 'enslavement_capture')
 x$l1 <- rcd(x$l1, 'fear of rape', 'rape')
-x$l2 <- rcd(x$l1, 'fear of rape', 'rape')
+x$l2 <- rcd(x$l2, 'fear of rape', 'rape')
 x$l1 <- rcd(x$l1, 'fear of illness disf', 'illness')
-x$l2 <- rcd(x$l1, 'fear of illness disf', 'illness')
+x$l2 <- rcd(x$l2, 'fear of illness disf', 'illness')
 x$l1 <- rcd(x$l1, 'gambling loss', 'resource_loss')
-x$l2 <- rcd(x$l1, 'gambling loss', 'resource_loss')
+x$l2 <- rcd(x$l2, 'gambling loss', 'resource_loss')
 x$l1 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
-x$l2 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
-x$l1 <- rcd(x$l1, 'senility', 'old_age_illness')
-x$l2 <- rcd(x$l1, 'senility', 'old_age_illness')
-x$l1 <- rcd(x$l1, 'infirmity', 'old_age_illness')
-x$l2 <- rcd(x$l1, 'infirmity', 'old_age_illness')
+x$l2 <- rcd(x$l2, 'inability to marry', 'thwarted marriage')
+x$l1 <- rcd(x$l1, 'senility', 'illness')
+x$l2 <- rcd(x$l2, 'senility', 'illness')
+x$l1 <- rcd(x$l1, 'infirmity', 'illness')
+x$l2 <- rcd(x$l2, 'infirmity', 'illness')
+x$l1 <- rcd(x$l1, 'thwarted_status', 'loss_social_position')
+x$l2 <- rcd(x$l2, 'thwarted_status', 'loss_social_position')
+x$l1 <- rcd(x$l1, 'commit adultry', 'commit adultery')
+x$l2 <- rcd(x$l2, 'commit adultry', 'commit adultery')
+x$l1 <- rcd(x$l1, 'failure or sense of ', 'failure or sense of')
+x$l2 <- rcd(x$l2, 'failure or sense of ', 'failure or sense of')
+
+#Remove cause types that are redundant or not informative
+x$l1 <- x$l1[x$l1 != c('failed expectations', 'disconnected from fa', 'separation from love', 'significant loss of', 'accus_commit_wrongdo', 'rejection', 'ridicule', 'group_conflict', 'interpersonal_confli', 'family shame', 'bad luck', 'commit adultry', 'imprisonment')]
+x$l2 <- x$l2[x$l2 != c('failed expectations', 'disconnected from fa', 'separation from love', 'significant loss of', 'accus_commit_wrongdo', 'rejection', 'ridicule', 'group_conflict', 'interpersonal_confli', 'family shame', 'bad luck', 'commit adultry', 'imprisonment')]
+
+y <- ctcomparison(x)
+c1 <- 0
+for (i in 1:length(x$l1)){
+    if ('spirit_attack' %in% x$l1[[i]]){
+        if ('spirit_attack' %in% x$l2[[i]]){
+            c1 <- c1+1
+        }
+    }
+        
+}
+
+ctfind <- function(ct){
+    v1 <- sapply(x$l1, function(a) ct %in% a)
+    v2 <- sapply(x$l2, function(a) ct %in% a)
+    #return(list(v1=as.numeric(v1), v2=as.numeric(v2)))
+    #return(c(ct=cor(as.numeric(v1), as.numeric(v2), use='complete.obs')))
+    #return(c(ct=kappa2(cbind(as.numeric(v1), as.numeric(v2)))$value))
+    print(ct)
+    print(table(v1,v2))
+}
+
+u <- unlist(x$l1)
+u <- c(u,unlist(x$l2))
+u <- unique(u)
+z <- sapply(u,ctfind)
 
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
