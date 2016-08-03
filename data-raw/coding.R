@@ -726,7 +726,8 @@ bad_causetypes <- c('failed expectations',
                     'separation from love', 
                     'significant loss of', 
                     'significant loss of ', # Note the extra space
-                    'accus_commit_wrongdo', 
+                    'accus_commit_wrongdo',
+                    'thwarted purpose'
                     'rejection', 
                     'ridicule', 
                     'group_conflict', 
@@ -738,6 +739,8 @@ bad_causetypes <- c('failed expectations',
 
 x$l1 <- lapply(x$l1, function(x) setdiff(x, bad_causetypes))
 x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
+
+#incorporate "transgression" "shame" "punishment_type" "transgresion_type" from apology unreconciled
 
 # Cause groups
 
@@ -751,6 +754,40 @@ x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
 cause_groups <- c(
     'incest' = 'mating',
     'unfaithful spouse' = 'mating',
+    'rape' = 'mating',
+    'failed romantic rela' = 'mating',
+    'disappointment in ma' = 'mating',
+    'divorce or attempted' = 'mating',
+    'thwarted marriage' = 'mating',
+    'forced marriage' = 'mating',
+    'bring in cowife' = 'mating',
+    'pregnancy' = 'reproduction',
+    'loss of children' = 'reproduction',
+    'inability to have ch' = 'reproduction',
+    'natural disaster' = 'resources',
+    'owed debt' = 'resources',
+    'fear of loss' = 'resources',
+    'resource_loss' = 'resources',
+    'failure or sense of' = 'social parnters/group',
+    'no or low contributi' = 'social parnters/group',
+    'thwarted status' = 'social parnters/group',
+    'loss of status' = 'social parnters/group',
+    'alienation' = 'social parnters/group',
+    'betrayal' = 'social parnters/group',
+    'fear of revenge' = 'social parnters/group',
+    'anomie/social tensio' = 'large scale group conflict',
+    'military_defeat' = 'large scale group conflict',
+    'political unrest' = 'large scale group conflict',
+    'warn others' = 'large scale group conflict',
+    'labor exploitation' = 'loss of autonomy /mobility',
+    'enslavement_capture' = 'loss of autonomy /mobility',
+    'physical abuse' = 'physical harm',
+    'bodily trauma' = 'physical harm',
+    'disfigurement' = 'physical harm',
+    'illness' = 'physical harm',
+    'psychological distre' = 'mental health',
+    'spirit_attack' = 'spirit attack',
+    'neglect' = 'parental neglect'
 )
 
 a <- lapply(x$l1[1:3], function(x) unique(cause_groups[x]))
