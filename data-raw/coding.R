@@ -727,7 +727,7 @@ bad_causetypes <- c('failed expectations',
                     'significant loss of', 
                     'significant loss of ', # Note the extra space
                     'accus_commit_wrongdo',
-                    'thwarted purpose'
+                    'thwarted purpose',
                     'rejection', 
                     'ridicule', 
                     'group_conflict', 
@@ -764,17 +764,17 @@ cause_groups <- c(
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
     'inability to have ch' = 'reproduction',
-    'natural disaster' = 'resources',
+    'natural disaster' = 'resources', # Good categorization?
     'owed debt' = 'resources',
     'fear of loss' = 'resources',
     'resource_loss' = 'resources',
-    'failure or sense of' = 'social parnters/group',
-    'no or low contributi' = 'social parnters/group',
-    'thwarted status' = 'social parnters/group',
-    'loss of status' = 'social parnters/group',
-    'alienation' = 'social parnters/group',
-    'betrayal' = 'social parnters/group',
-    'fear of revenge' = 'social parnters/group',
+    'failure or sense of' = 'social partners/group',
+    'no or low contributi' = 'social partners/group',
+    'thwarted status' = 'social partners/group',
+    'loss of status' = 'social partners/group',
+    'alienation' = 'social partners/group',
+    'betrayal' = 'social partners/group',
+    'fear of revenge' = 'social partners/group',
     'anomie/social tensio' = 'large scale group conflict',
     'military_defeat' = 'large scale group conflict',
     'political unrest' = 'large scale group conflict',
@@ -785,12 +785,14 @@ cause_groups <- c(
     'bodily trauma' = 'physical harm',
     'disfigurement' = 'physical harm',
     'illness' = 'physical harm',
-    'psychological distre' = 'mental health',
+    'psychological distre' = 'psychological distress',
     'spirit_attack' = 'spirit attack',
-    'neglect' = 'parental neglect'
+    'neglect' = 'parental neglect',
+    'death_loved_one' = 'death of a loved one'
 )
 
-a <- lapply(x$l1[1:3], function(x) unique(cause_groups[x]))
+a1 <- lapply(x$l1, function(x) unique(cause_groups[x]))
+a2 <- lapply(x$l2, function(x) unique(cause_groups[x]))
 
 # Something else
 
@@ -805,9 +807,11 @@ for (i in 1:length(x$l1)){
         
 }
 
-ctfind <- function(ct){
-    v1 <- sapply(x$l1, function(a) ct %in% a)
-    v2 <- sapply(x$l2, function(a) ct %in% a)
+library(irr)
+ctfind <- function(ct, l1, l2){
+    v1 <- sapply(l1, function(a) ct %in% a)
+    v2 <- sapply(l2, function(a) ct %in% a)
+    print(kappa2(cbind(v1, v2)))
     #return(list(v1=as.numeric(v1), v2=as.numeric(v2)))
     #return(c(ct=cor(as.numeric(v1), as.numeric(v2), use='complete.obs')))
     #return(c(ct=kappa2(cbind(as.numeric(v1), as.numeric(v2)))$value))
@@ -815,11 +819,15 @@ ctfind <- function(ct){
     print(table(v1,v2))
 }
 
+# Lower level cause types
 u <- unlist(x$l1)
 u <- c(u,unlist(x$l2))
 u <- unique(u)
-z <- sapply(u,ctfind)
+z <- sapply(u,ctfind, l1=x$l1, l2=x$l2)
 
+# Higher level cause groups
+cg <- unique(cause_groups)
+z2 <- sapply(cg, ctfind, l1=a1, l2=a2)
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
 save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
