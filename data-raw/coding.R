@@ -740,7 +740,7 @@ bad_causetypes <- c('failed expectations',
 x$l1 <- lapply(x$l1, function(x) setdiff(x, bad_causetypes))
 x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
 
-#incorporate "transgression" "shame" "punishment_type" "transgresion_type" from apology unreconciled
+#incorporate "transgression" "shame" "punishment_type" "transgresion_type" from apology unreconciled and conflict from ZK unreconciled?
 
 # Cause groups
 
