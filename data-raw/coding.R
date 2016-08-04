@@ -609,6 +609,7 @@ coltypes <- c(id = 'text',
               unjustly_accused_punished = 'numeric')
 
 apology <- read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
+causetypesfinal <- read_csv("data-raw/CauseTypesFinal.csv")
 
 #check coding is identical
 syme <- apology[apology$coder == 'syme', -c(2, 5)]
@@ -752,7 +753,7 @@ x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
 
 # left: original cause type. right: new, more general cause type
 cause_groups <- c(
-    'incest' = 'mating',
+    'incest' = 'mating',  # added clan incest distinct from incest
     'unfaithful spouse' = 'mating',
     'rape' = 'mating',
     'failed romantic rela' = 'mating',
@@ -761,6 +762,7 @@ cause_groups <- c(
     'thwarted marriage' = 'mating',
     'forced marriage' = 'mating',
     'bring in cowife' = 'mating',
+    'inability to marry' = 'mating',
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
     'inability to have ch' = 'reproduction',
@@ -769,6 +771,7 @@ cause_groups <- c(
     'fear of loss' = 'resources',
     'resource_loss' = 'resources',
     'failure or sense of' = 'social partners/group',
+    'fear of harming othe' = 'social partners/group',  # Good categorization?
     'no or low contributi' = 'social partners/group',
     'thwarted status' = 'social partners/group',
     'loss of status' = 'social partners/group',
@@ -828,6 +831,8 @@ z <- sapply(u,ctfind, l1=x$l1, l2=x$l2)
 # Higher level cause groups
 cg <- unique(cause_groups)
 z2 <- sapply(cg, ctfind, l1=a1, l2=a2)
+
+#analysis of cause types and apology
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
 save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
