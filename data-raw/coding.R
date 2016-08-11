@@ -609,7 +609,7 @@ coltypes <- c(id = 'text',
               unjustly_accused_punished = 'numeric')
 
 apology <- read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
-causetypesfinal <- read_csv("data-raw/CauseTypesFinal.csv")
+causetypes <- read_csv("data-raw/CauseTypesFinal.csv") ### Final
 
 #check coding is identical
 syme <- apology[apology$coder == 'syme', -c(2, 5)]
@@ -839,5 +839,5 @@ z2 <- sapply(cg, ctfind, l1=a1, l2=a2)
 #analysis of cause types and apology
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
-save(causetypesfinal, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
+save(causetypes, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
