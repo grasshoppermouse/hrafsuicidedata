@@ -636,6 +636,10 @@ apology$culpable <- apology$unjustly_accused_punished == -1
 apology$culpable <- as.numeric(apology$culpable)
 apology$unjustly_accused_punished[apology$unjustly_accused_punished == -1] <- 0 
 
+
+#Remove 466, 467, and 634 from apology
+apology = apology[-c(466, 467,468),]
+
 lapply(apology, function(x){sum(x==-1)})
 
 apology$forgiven[apology$forgiven == -1] <- 0
@@ -835,5 +839,5 @@ z2 <- sapply(cg, ctfind, l1=a1, l2=a2)
 #analysis of cause types and apology
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
-save(coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
+save(causetypesfinal, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
