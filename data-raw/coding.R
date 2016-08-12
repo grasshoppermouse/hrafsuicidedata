@@ -635,7 +635,8 @@ apology_raw <- apology
 apology$culpable <- apology$unjustly_accused_punished == -1
 apology$culpable <- as.numeric(apology$culpable)
 apology$unjustly_accused_punished[apology$unjustly_accused_punished == -1] <- 0 
-
+apology$punishment_type[apology$punishment_type == 'unknown'] <- 'unknown punishment'
+apology$punishment_type[apology$punishment_type == 'death'] <- 'death penalty'
 
 #Remove 466, 467, and 634 from apology
 apology = apology[-c(466, 467,468),]
@@ -717,7 +718,11 @@ substitutions <- c(
     'infirmity' = 'illness',
     'thwarted_status' = 'loss_social_position',
     'commit adultry' = 'commit adultery',
-    'failure or sense of ' = 'failure or sense of'
+    'failure or sense of ' = 'failure or sense of',
+    'inability to have ch' = 'infertility',
+    'psychological distre' = 'psychological distress',
+    'failed romantic rela' = 'failed romantic relationship',
+    'disappointment in ma' = 'disappointment in marriage'
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -780,7 +785,27 @@ l1 <- lapply(l1, function(x) setdiff(x, bad_causetypes))
 l2 <- lapply(l2, function(x) setdiff(x, bad_causetypes))
 l_final <- lapply(l_final, function(x) setdiff(x, bad_causetypes))
 
-#incorporate "transgression" "shame" "punishment_type" "transgresion_type" from apology unreconciled and conflict from ZK unreconciled?
+# incorporate "transgression" "shame" "punishment_type" "transgresion_type" 
+# from apology, and conflict from ZK
+
+for (i in 1:length(l_final)) {
+    nm <- names(l_final[i])
+    row1 <- coding[coding$id == nm,]
+    row2 <- apology[apology$id == nm,]
+    
+    if (row1$Conflict) {
+        l_final[[i]] <- c(l_final[[i]], 'conflict')
+    }
+    
+    if (row2$transgression_type != 'none'){
+        l_final[[i]] <- c(l_final[[i]], row2$transgression_type)
+    }    
+    
+    if (row2$punishment_type != 'na'){
+        l_final[[i]] <- c(l_final[[i]], row2$punishment_type)
+    }
+    
+}
 
 # Cause groups
 
@@ -790,15 +815,16 @@ l_final <- lapply(l_final, function(x) setdiff(x, bad_causetypes))
 #     'resources' = c('natural disaster', 'owed debt', 'fear of loss', 'resource_loss')
 #     )
 
-# left: original cause type. right: new, more general cause type
+# left: original cause type. right: new, more general cause group
 cause_groups <- c(
+    
     'incest' = 'mating',  # added clan incest distinct from incest
     'clan incest' = 'mating',
     ' clan incest' = 'mating',
     'unfaithful spouse' = 'mating',
     'rape' = 'mating',
-    'failed romantic rela' = 'mating',
-    'disappointment in ma' = 'mating',
+    'failed romantic relationship' = 'mating',
+    'disappointment in marriage' = 'mating',
     'divorce' = 'mating',
     'divorce or attempted' = 'mating',
     'thwarted marriage' = 'mating',
@@ -807,41 +833,64 @@ cause_groups <- c(
     'inability to marry' = 'mating',
     'adultery' = 'mating',
     'commit adultery' = 'mating',
+    
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
-    'inability to have ch' = 'reproduction',
+    'infertility' = 'reproduction',
+    
     'natural disaster' = 'resources', # Good categorization?
     'owed debt' = 'resources',
     'fear of loss' = 'resources',
     'resource_loss' = 'resources',
-    'failure or sense of' = 'social partners/group',
-    'fear of harming othe' = 'social partners/group',  # Good categorization?
-    'burdensomeness' = 'social partners/group',
-    'no or low contributi' = 'social partners/group',
-    'thwarted status' = 'social partners/group',
-    'loss of status' = 'social partners/group',
-    'loss_social_position' = 'social partners/group',
-    'alienation' = 'social partners/group',
+    'fine' = 'resources',
+    
+    'fear of harming othe' = 'burden on others',  # Good categorization?
+    'burdensomeness' = 'burden on others',
+    'failure or sense of' = 'burden on others',
+
     'betrayal' = 'social partners/group',
     'fear of revenge' = 'social partners/group',
-    'anomie/social tensio' = 'large scale group conflict',
-    'military_defeat' = 'large scale group conflict',
-    'political unrest' = 'large scale group conflict',
-    'warn others' = 'large scale group conflict',
+    'loss_social_partner' = 'social partners/group',
+   
+    'thwarted status' = 'loss of social position',
+    'loss of status' = 'loss of social position',
+    'ostracism' = 'loss of social position',
+    'public_humiliation' = 'loss of social position',
+    'ridicule' = 'loss of social position',
+    'social_condemnation' = 'loss of social position',
+    'loss_social_position' = 'loss of social position',
+    'loss_position' = 'loss of social position',
+    'alienation' = 'loss of social position',
+    
+    'anomie/social tensio' = 'between group conflict',
+    'military_defeat' = 'between group conflict',
+    'political unrest' = 'between group conflict',
+    'warn others' = 'between group conflict',
+    
     'labor exploitation' = 'loss of autonomy /mobility',
     'enslavement_capture' = 'loss of autonomy /mobility',
+    'imprisonment' = 'loss of autonomy /mobility', 
+    
     'physical abuse' = 'physical harm',
     'bodily trauma' = 'physical harm',
     'disfigurement' = 'physical harm',
+    'nonlethal_physical' = 'physical harm',
+    
     'illness' = 'illness',
     'disease outbreak' = 'illness',
-    'psychological distre' = 'psychological distress',
+    
+    'psychological distress' = 'psychological distress',
     'boredom' = 'psychological distress',
+    
     'spirit_attack' = 'spirit attack',
     'neglect' = 'parental neglect',
+    
     'death_loved_one' = 'death of a loved one',
     'trauma to loved one' = 'death of a loved one',
-    'unknown' = 'unknown'
+    
+    'unknown' = 'unknown',
+    'conflict' = 'conflict',
+    'unknown punishment' = 'punishment'
 )
 
 a1 <- lapply(l1, function(x) unique(cause_groups[x]))
