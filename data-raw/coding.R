@@ -609,7 +609,7 @@ coltypes <- c(id = 'text',
               unjustly_accused_punished = 'numeric')
 
 apology <- read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
-causetypesfinal <- read_csv("data-raw/CauseTypesFinal.csv")
+causetypes_raw <- read_csv("data-raw/CauseTypesFinal.csv") ### Final
 
 #check coding is identical
 syme <- apology[apology$coder == 'syme', -c(2, 5)]
@@ -635,7 +635,8 @@ apology_raw <- apology
 apology$culpable <- apology$unjustly_accused_punished == -1
 apology$culpable <- as.numeric(apology$culpable)
 apology$unjustly_accused_punished[apology$unjustly_accused_punished == -1] <- 0 
-
+apology$punishment_type[apology$punishment_type == 'unknown'] <- 'unknown punishment'
+apology$punishment_type[apology$punishment_type == 'death'] <- 'death penalty'
 
 #Remove 466, 467, and 634 from apology
 apology = apology[-c(466, 467,468),]
@@ -656,20 +657,13 @@ tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types
 
 library(stringr)
 
-cause_types <- function(v1, v2){
-    #total_causes <- c()
-    #matching_causes <- c()
+cause_types <- function(v){
     l1 <- list()
-    l2 <- list()
-    for (i in 1:length(v1)){
-        c1 <- str_split(v1[i], ',')[[1]]
-        c2 <- str_split(v2[i], ',')[[1]]
+    for (i in 1:length(v)){
+        c1 <- str_split(v[i], ',')[[1]]
         l1[[i]] <- c1
-        l2[[i]] <- c2
-        #total_causes <- c(total_causes, length(union(c1, c2)))
-        #matching_causes <- c(matching_causes, length(intersect(c1, c2)))
     }
-    return(list(l1=l1, l2=l2))
+    return(l1)
 }
 ctcomparison <- function(x){
     total_causes <- c()
@@ -681,9 +675,8 @@ ctcomparison <- function(x){
     return(data.frame(total_causes=total_causes, matching_causes=matching_causes))
 }
 
-
 rcd <- function(mylist,original,newc){
-    for (i in 1: length(mylist)){
+    for (i in 1:length(mylist)){
         a <- mylist[[i]]
         x <- match(original,a)
         if (!is.na(x)) a[x] <- newc
@@ -692,37 +685,80 @@ rcd <- function(mylist,original,newc){
     return(mylist)
 }
 
-x <- cause_types(tmp$Cause_type, tmp$Cause_type2)
-x$l1 <- rcd(x$l1, 'fear of supernatural', 'spirit_attack')
-x$l2 <- rcd(x$l2, 'fear of supernatural', 'spirit_attack')
-x$l1 <- rcd(x$l1, 'family tension', 'interpersonal_confli')
-x$l2 <- rcd(x$l2, 'family tension', 'interpersonal_confli')
-x$l1 <- rcd(x$l1, 'emotional distress', 'psychological distre')
-x$l2 <- rcd(x$l2, 'emotional distress', 'psychological distre')
-x$l1 <- rcd(x$l1, 'mental illness', 'psychological distre')
-x$l2 <- rcd(x$l2, 'mental illness', 'psychological distre')
-x$l1 <- rcd(x$l1, 'loneliness', 'alienation')
-x$l2 <- rcd(x$l2, 'loneliness', 'alienation')
-x$l1 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
-x$l2 <- rcd(x$l2, 'fear of imprisonment', 'enslavement_capture')
-x$l1 <- rcd(x$l1, 'fear of rape', 'rape')
-x$l2 <- rcd(x$l2, 'fear of rape', 'rape')
-x$l1 <- rcd(x$l1, 'fear of illness disf', 'illness')
-x$l2 <- rcd(x$l2, 'fear of illness disf', 'illness')
-x$l1 <- rcd(x$l1, 'gambling loss', 'resource_loss')
-x$l2 <- rcd(x$l2, 'gambling loss', 'resource_loss')
-x$l1 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
-x$l2 <- rcd(x$l2, 'inability to marry', 'thwarted marriage')
-x$l1 <- rcd(x$l1, 'senility', 'illness')
-x$l2 <- rcd(x$l2, 'senility', 'illness')
-x$l1 <- rcd(x$l1, 'infirmity', 'illness')
-x$l2 <- rcd(x$l2, 'infirmity', 'illness')
-x$l1 <- rcd(x$l1, 'thwarted_status', 'loss_social_position')
-x$l2 <- rcd(x$l2, 'thwarted_status', 'loss_social_position')
-x$l1 <- rcd(x$l1, 'commit adultry', 'commit adultery')
-x$l2 <- rcd(x$l2, 'commit adultry', 'commit adultery')
-x$l1 <- rcd(x$l1, 'failure or sense of ', 'failure or sense of')
-x$l2 <- rcd(x$l2, 'failure or sense of ', 'failure or sense of')
+rcd2 <- function(mylist, sbstns){
+    for (i in 1:length(sbstns)){
+        s <- sbstns[i]
+        mylist <- rcd(mylist, names(s), s)
+    }
+    return(mylist)
+}
+
+l1 <- cause_types(tmp$Cause_type)
+names(l1) <- tmp$id
+
+l2 <- cause_types(tmp$Cause_type2)
+names(l2) <- tmp$id
+
+l_final <- cause_types(causetypes$Cause_type2)
+names(l_final) <- tmp$id
+
+substitutions <- c(
+    'fear of supernatural' = 'spirit_attack',
+    'family tension' = 'interpersonal_confli',
+    'emotional distress' = 'psychological distre',
+    'mental illness' = 'psychological distre',
+    'loneliness' = 'alienation',
+    'fear of imprisonment' = 'enslavement_capture',
+    'fear of enslavement' = 'enslavement_capture',
+    'fear of rape' = 'rape',
+    'fear of illness disf' = 'illness',
+    'gambling loss' = 'resource_loss',
+    'inability to marry' = 'thwarted marriage',
+    'senility' = 'illness',
+    'infirmity' = 'illness',
+    'thwarted_status' = 'loss_social_position',
+    'commit adultry' = 'commit adultery',
+    'failure or sense of ' = 'failure or sense of',
+    'inability to have ch' = 'infertility',
+    'psychological distre' = 'psychological distress',
+    'failed romantic rela' = 'failed romantic relationship',
+    'disappointment in ma' = 'disappointment in marriage'
+)
+
+l1 <- rcd2(l1, substitutions)
+l2 <- rcd2(l2, substitutions)
+l_final <- rcd2(l_final, substitutions)
+
+# x$l1 <- rcd(x$l1, 'fear of supernatural', 'spirit_attack')
+# x$l2 <- rcd(x$l2, 'fear of supernatural', 'spirit_attack')
+# x$l1 <- rcd(x$l1, 'family tension', 'interpersonal_confli')
+# x$l2 <- rcd(x$l2, 'family tension', 'interpersonal_confli')
+# x$l1 <- rcd(x$l1, 'emotional distress', 'psychological distre')
+# x$l2 <- rcd(x$l2, 'emotional distress', 'psychological distre')
+# x$l1 <- rcd(x$l1, 'mental illness', 'psychological distre')
+# x$l2 <- rcd(x$l2, 'mental illness', 'psychological distre')
+# x$l1 <- rcd(x$l1, 'loneliness', 'alienation')
+# x$l2 <- rcd(x$l2, 'loneliness', 'alienation')
+# x$l1 <- rcd(x$l1, 'fear of imprisonment', 'enslavement_capture')
+# x$l2 <- rcd(x$l2, 'fear of imprisonment', 'enslavement_capture')
+# x$l1 <- rcd(x$l1, 'fear of rape', 'rape')
+# x$l2 <- rcd(x$l2, 'fear of rape', 'rape')
+# x$l1 <- rcd(x$l1, 'fear of illness disf', 'illness')
+# x$l2 <- rcd(x$l2, 'fear of illness disf', 'illness')
+# x$l1 <- rcd(x$l1, 'gambling loss', 'resource_loss')
+# x$l2 <- rcd(x$l2, 'gambling loss', 'resource_loss')
+# x$l1 <- rcd(x$l1, 'inability to marry', 'thwarted marriage')
+# x$l2 <- rcd(x$l2, 'inability to marry', 'thwarted marriage')
+# x$l1 <- rcd(x$l1, 'senility', 'illness')
+# x$l2 <- rcd(x$l2, 'senility', 'illness')
+# x$l1 <- rcd(x$l1, 'infirmity', 'illness')
+# x$l2 <- rcd(x$l2, 'infirmity', 'illness')
+# x$l1 <- rcd(x$l1, 'thwarted_status', 'loss_social_position')
+# x$l2 <- rcd(x$l2, 'thwarted_status', 'loss_social_position')
+# x$l1 <- rcd(x$l1, 'commit adultry', 'commit adultery')
+# x$l2 <- rcd(x$l2, 'commit adultry', 'commit adultery')
+# x$l1 <- rcd(x$l1, 'failure or sense of ', 'failure or sense of')
+# x$l2 <- rcd(x$l2, 'failure or sense of ', 'failure or sense of')
 
 # Remove cause types that are redundant or not informative
 
@@ -731,6 +767,7 @@ bad_causetypes <- c('failed expectations',
                     'separation from love', 
                     'significant loss of', 
                     'significant loss of ', # Note the extra space
+                    'significant loss soc',
                     'accus_commit_wrongdo',
                     'thwarted purpose',
                     'rejection', 
@@ -740,12 +777,35 @@ bad_causetypes <- c('failed expectations',
                     'family shame', 
                     'bad luck', 
                     'commit adultry', 
-                    'imprisonment')
+                    'imprisonment',
+                    'public humiliation',
+                    "")
 
-x$l1 <- lapply(x$l1, function(x) setdiff(x, bad_causetypes))
-x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
+l1 <- lapply(l1, function(x) setdiff(x, bad_causetypes))
+l2 <- lapply(l2, function(x) setdiff(x, bad_causetypes))
+l_final <- lapply(l_final, function(x) setdiff(x, bad_causetypes))
 
-#incorporate "transgression" "shame" "punishment_type" "transgresion_type" from apology unreconciled and conflict from ZK unreconciled?
+# incorporate "transgression" "shame" "punishment_type" "transgresion_type" 
+# from apology, and conflict from ZK
+
+for (i in 1:length(l_final)) {
+    nm <- names(l_final[i])
+    row1 <- coding[coding$id == nm,]
+    row2 <- apology[apology$id == nm,]
+    
+    if (row1$Conflict) {
+        l_final[[i]] <- c(l_final[[i]], 'conflict')
+    }
+    
+    if (row2$transgression_type != 'none'){
+        l_final[[i]] <- c(l_final[[i]], row2$transgression_type)
+    }    
+    
+    if (row2$punishment_type != 'na'){
+        l_final[[i]] <- c(l_final[[i]], row2$punishment_type)
+    }
+    
+}
 
 # Cause groups
 
@@ -755,63 +815,98 @@ x$l2 <- lapply(x$l2, function(x) setdiff(x, bad_causetypes))
 #     'resources' = c('natural disaster', 'owed debt', 'fear of loss', 'resource_loss')
 #     )
 
-# left: original cause type. right: new, more general cause type
+# left: original cause type. right: new, more general cause group
 cause_groups <- c(
+    
     'incest' = 'mating',  # added clan incest distinct from incest
+    'clan incest' = 'mating',
+    ' clan incest' = 'mating',
     'unfaithful spouse' = 'mating',
     'rape' = 'mating',
-    'failed romantic rela' = 'mating',
-    'disappointment in ma' = 'mating',
+    'failed romantic relationship' = 'mating',
+    'disappointment in marriage' = 'mating',
+    'divorce' = 'mating',
     'divorce or attempted' = 'mating',
     'thwarted marriage' = 'mating',
     'forced marriage' = 'mating',
     'bring in cowife' = 'mating',
     'inability to marry' = 'mating',
+    'adultery' = 'mating',
+    'commit adultery' = 'mating',
+    
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
-    'inability to have ch' = 'reproduction',
+    'infertility' = 'reproduction',
+    
     'natural disaster' = 'resources', # Good categorization?
     'owed debt' = 'resources',
     'fear of loss' = 'resources',
     'resource_loss' = 'resources',
-    'failure or sense of' = 'social partners/group',
-    'fear of harming othe' = 'social partners/group',  # Good categorization?
-    'no or low contributi' = 'social partners/group',
-    'thwarted status' = 'social partners/group',
-    'loss of status' = 'social partners/group',
-    'alienation' = 'social partners/group',
+    'fine' = 'resources',
+    
+    'fear of harming othe' = 'burden on others',  # Good categorization?
+    'burdensomeness' = 'burden on others',
+    'failure or sense of' = 'burden on others',
+
     'betrayal' = 'social partners/group',
     'fear of revenge' = 'social partners/group',
-    'anomie/social tensio' = 'large scale group conflict',
-    'military_defeat' = 'large scale group conflict',
-    'political unrest' = 'large scale group conflict',
-    'warn others' = 'large scale group conflict',
+    'loss_social_partner' = 'social partners/group',
+   
+    'thwarted status' = 'loss of social position',
+    'loss of status' = 'loss of social position',
+    'ostracism' = 'loss of social position',
+    'public_humiliation' = 'loss of social position',
+    'ridicule' = 'loss of social position',
+    'social_condemnation' = 'loss of social position',
+    'loss_social_position' = 'loss of social position',
+    'loss_position' = 'loss of social position',
+    'alienation' = 'loss of social position',
+    
+    'anomie/social tensio' = 'between group conflict',
+    'military_defeat' = 'between group conflict',
+    'political unrest' = 'between group conflict',
+    'warn others' = 'between group conflict',
+    
     'labor exploitation' = 'loss of autonomy /mobility',
     'enslavement_capture' = 'loss of autonomy /mobility',
+    'imprisonment' = 'loss of autonomy /mobility', 
+    
     'physical abuse' = 'physical harm',
     'bodily trauma' = 'physical harm',
     'disfigurement' = 'physical harm',
-    'illness' = 'physical harm',
-    'psychological distre' = 'psychological distress',
+    'nonlethal_physical' = 'physical harm',
+    
+    'illness' = 'illness',
+    'disease outbreak' = 'illness',
+    
+    'psychological distress' = 'psychological distress',
+    'boredom' = 'psychological distress',
+    
     'spirit_attack' = 'spirit attack',
     'neglect' = 'parental neglect',
-    'death_loved_one' = 'death of a loved one'
+    
+    'death_loved_one' = 'death of a loved one',
+    'trauma to loved one' = 'death of a loved one',
+    
+    'unknown' = 'unknown',
+    'conflict' = 'conflict',
+    'unknown punishment' = 'punishment'
 )
 
-a1 <- lapply(x$l1, function(x) unique(cause_groups[x]))
-a2 <- lapply(x$l2, function(x) unique(cause_groups[x]))
+a1 <- lapply(l1, function(x) unique(cause_groups[x]))
+a2 <- lapply(l2, function(x) unique(cause_groups[x]))
+a3 <- lapply(l_final, function(x) unique(cause_groups[x]))
 
 # Something else
 
-y <- ctcomparison(x)
+y <- ctcomparison(list(l1=l1, l2=l2))
 c1 <- 0
-for (i in 1:length(x$l1)){
-    if ('spirit_attack' %in% x$l1[[i]]){
-        if ('spirit_attack' %in% x$l2[[i]]){
+for (i in 1:length(l1)){
+    if ('spirit_attack' %in% l1[[i]]){
+        if ('spirit_attack' %in% l2[[i]]){
             c1 <- c1+1
         }
     }
-        
 }
 
 library(irr)
@@ -827,17 +922,20 @@ ctfind <- function(ct, l1, l2){
 }
 
 # Lower level cause types
-u <- unlist(x$l1)
-u <- c(u,unlist(x$l2))
+u <- unlist(l1)
+u <- c(u,unlist(l2))
 u <- unique(u)
-z <- sapply(u,ctfind, l1=x$l1, l2=x$l2)
+z <- sapply(u,ctfind, l1=l1, l2=l2)
 
 # Higher level cause groups
 cg <- unique(cause_groups)
 z2 <- sapply(cg, ctfind, l1=a1, l2=a2)
 
-#analysis of cause types and apology
+# rename l_final, a3
+
+causetypes <- l_final
+causegroups <- a3
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
-save(causetypesfinal, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
+save(causetypes_raw, causetypes, causegroups, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
 
