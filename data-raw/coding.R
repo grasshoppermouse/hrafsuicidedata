@@ -807,7 +807,7 @@ for (i in 1:length(l_final)) {
     
 }
 
-# Cause groups
+# Cause groups--groups in terms of impact on fitness
 
 # cause_groups <- list(
 #     'mating' = c('incest', 'unfaithful spouse', 'rape', 'failed romantic rela', 'disappointment in ma', 'divorce or attempted', 'thwarted marriage', 'forced marriage', 'bring in cowife'),
@@ -817,6 +817,8 @@ for (i in 1:length(l_final)) {
 
 # left: original cause type. right: new, more general cause group
 cause_groups <- c(
+    
+    'conflict' = 'conflict',
     
     'incest' = 'mating',  # added clan incest distinct from incest
     'clan incest' = 'mating',
@@ -832,7 +834,8 @@ cause_groups <- c(
     'bring in cowife' = 'mating',
     'inability to marry' = 'mating',
     'adultery' = 'mating',
-    'commit adultery' = 'mating',
+    'commit adultery' = 'mating', 
+    'sexual_taboo' = 'mating',
     
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
@@ -843,38 +846,39 @@ cause_groups <- c(
     'fear of loss' = 'resources',
     'resource_loss' = 'resources',
     'fine' = 'resources',
+    'squandered_resources' = 'resources', # or burden on others
     
-    'fear of harming othe' = 'burden on others',  # Good categorization?
+    'fear of harming othe' = 'burden on others',  
     'burdensomeness' = 'burden on others',
     'failure or sense of' = 'burden on others',
-
-    'betrayal' = 'social partners/group',
-    'fear of revenge' = 'social partners/group',
-    'loss_social_partner' = 'social partners/group',
+    'fail_others' = 'burden on others',
    
     'thwarted status' = 'loss of social position',
     'loss of status' = 'loss of social position',
-    'ostracism' = 'loss of social position',
-    'public_humiliation' = 'loss of social position',
-    'ridicule' = 'loss of social position',
-    'social_condemnation' = 'loss of social position',
     'loss_social_position' = 'loss of social position',
-    'loss_position' = 'loss of social position',
-    'alienation' = 'loss of social position',
+    'loss_position' = 'loss of social position',      # could also be loss of resources
     
-    'anomie/social tensio' = 'between group conflict',
+    'ostracism' = 'social estrangement',
+    'public_humiliation' = 'social estrangement',
+    'ridicule' = 'social estrangement',
+    'social_condemnation' = 'social estrangement',
+    'alienation' = 'social estrangement',
+    
     'military_defeat' = 'between group conflict',
     'political unrest' = 'between group conflict',
     'warn others' = 'between group conflict',
+    'anomie/social tensio' = 'between group conflict',
+    'nonconversion' = 'between group conflict',
     
     'labor exploitation' = 'loss of autonomy /mobility',
     'enslavement_capture' = 'loss of autonomy /mobility',
-    'imprisonment' = 'loss of autonomy /mobility', 
+    'imprisonment' = 'loss of autonomy /mobility',
     
-    'physical abuse' = 'physical harm',
-    'bodily trauma' = 'physical harm',
-    'disfigurement' = 'physical harm',
-    'nonlethal_physical' = 'physical harm',
+    'physical abuse' = 'physical harm to victim',
+    'bodily trauma' = 'physical harm to victim',
+    'disfigurement' = 'physical harm to victim',
+    'nonlethal_physical' = 'physical harm to victim',
+    'death penalty' = 'physical harm to victim',
     
     'illness' = 'illness',
     'disease outbreak' = 'illness',
@@ -883,14 +887,35 @@ cause_groups <- c(
     'boredom' = 'psychological distress',
     
     'spirit_attack' = 'spirit attack',
-    'neglect' = 'parental neglect',
     
-    'death_loved_one' = 'death of a loved one',
-    'trauma to loved one' = 'death of a loved one',
+    'neglect' = 'child/adolescent parental conflict',
+    'childhood_disobedience' = 'child/adolescent parental conflict',
+    'strike_parents' = 'child/adolescent parental conflict',
+    
+    'death_loved_one' = 'social partner loss',
+    'trauma to loved one' = 'social partner loss',
+    'loss_social_partner' = 'social partner loss',
+    
+    'manslaughter' = 'physically harm others',
+    'murder' = 'physically harm others',
+    'physical_attack' = 'physically harm others',
+    'attempted_murder' = 'physically harm others',
+    'threaten_murder' = 'physically harm others',
+    
+#don't know where to put these yet--Misc?
+    'witchcraft' = 'witchcraft',
+    'arrogance' = 'arrogance',
+    'betrayal' = 'betrayal',
+    'public_flatulence' = 'public_flatulence',
+    'disrespect_ritual' = 'disrespect_ritual',
+    'drunkenness' = 'drunkenness',
+    
+    'fear of punishment' = 'an unknown punishment',
+    'unknown punishment' = 'an unknown punishment',
     
     'unknown' = 'unknown',
-    'conflict' = 'conflict',
-    'unknown punishment' = 'punishment'
+    
+    
 )
 
 a1 <- lapply(l1, function(x) unique(cause_groups[x]))
