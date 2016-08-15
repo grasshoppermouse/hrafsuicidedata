@@ -718,11 +718,15 @@ substitutions <- c(
     'infirmity' = 'illness',
     'thwarted_status' = 'loss_social_position',
     'commit adultry' = 'commit adultery',
-    'failure or sense of ' = 'failure or sense of',
+    'failure or sense of' = 'failure/sense of failure',
     'inability to have ch' = 'infertility',
     'psychological distre' = 'psychological distress',
     'failed romantic rela' = 'failed romantic relationship',
-    'disappointment in ma' = 'disappointment in marriage'
+    'disappointment in ma' = 'disappointment in marriage',
+    'anomie/social tensio' = 'anomie/social tension',
+    'bring in cowife' = 'cowife',
+    'failed romantic rela' = 'failed romantic relationship',
+    
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -809,11 +813,6 @@ for (i in 1:length(l_final)) {
 
 # Cause groups--groups in terms of impact on fitness
 
-# cause_groups <- list(
-#     'mating' = c('incest', 'unfaithful spouse', 'rape', 'failed romantic rela', 'disappointment in ma', 'divorce or attempted', 'thwarted marriage', 'forced marriage', 'bring in cowife'),
-#     'reproduction' = c('pregnancy', 'loss of children', 'inability to have ch'),
-#     'resources' = c('natural disaster', 'owed debt', 'fear of loss', 'resource_loss')
-#     )
 
 # left: original cause type. right: new, more general cause group
 cause_groups <- c(
@@ -833,7 +832,7 @@ cause_groups <- c(
     'divorce or attempted' = 'mating',
     'thwarted marriage' = 'mating',
     'forced marriage' = 'mating',
-    'bring in cowife' = 'mating',
+    'cowife' = 'mating',
     'inability to marry' = 'mating',
     'adultery' = 'mating',
     'commit adultery' = 'mating', 
@@ -852,13 +851,13 @@ cause_groups <- c(
     'fine' = 'resource loss',
     
     # issues related to being a burden on others
-    'fear of harming othe' = 'burden on others',  
+    'fear of harming others' = 'burden on others',  
     'burdensomeness' = 'burden on others',
-    'failure or sense of' = 'burden on others',
+    'failure/sense of failure' = 'burden on others',
     'fail_others' = 'burden on others',
-    'squandered_resources' = 'burden on others', # since cases are more about impact of loss on others
+    'squandered_resources' = 'burden on others', # since extracts are more about impact of loss on others
    
-    # demotion of social status
+    # demoted social status
     'thwarted status' = 'loss of social position',
     'loss of status' = 'loss of social position',
     'loss_social_position' = 'loss of social position',
@@ -895,15 +894,15 @@ cause_groups <- c(
     'illness' = 'illness',
     'disease outbreak' = 'illness',
     
-    # mental health
+    # mental health issues
     'psychological distress' = 'mental health',
     'boredom' = 'mental health',
     'drunkenness' = 'mental health',
     
-    # pervasive cultural model
+    # a pervasive cultural model
     'spirit_attack' = 'spirit attack',
     
-    # children/adolescents conflict with parents
+    # conflict between children/adolescents and parents
     'neglect' = 'child/adolescent parental conflict',
     'childhood_disobedience' = 'child/adolescent parental conflict',
     'strike_parents' = 'child/adolescent parental conflict',
