@@ -627,8 +627,6 @@ syme <- apology_unreconciled[apology_unreconciled$coder=='syme',]
 calsbeek <- apology_unreconciled[apology_unreconciled$coder=='calsbeek',]
 apology <- apology[apology$coder == 'syme',-2]
 
-save(coding, coding2, apology, apology_unreconciled, file = "data/coding.RData", compress = "xz")
-
 apology_raw <- apology
 # Now convert apology_raw, which has -1 values, to apology, which will only have 0's and 1's
 
@@ -639,7 +637,7 @@ apology$punishment_type[apology$punishment_type == 'unknown'] <- 'unknown punish
 apology$punishment_type[apology$punishment_type == 'death'] <- 'death penalty'
 
 #Remove 466, 467, and 634 from apology
-apology = apology[-c(466, 467,468),]
+apology = apology[apology$id != '634',]
 
 lapply(apology, function(x){sum(x==-1)})
 
@@ -650,7 +648,7 @@ apology$punishment[apology$punishment == -1] <- 0
 
 caitlin_cause_types <-read_csv('data-raw/CaitlinCauseTypes.csv')
 kristen_cause_types <- d[c('id', 'Cause_type2')]
-kristen_cause_types_clean <- read_csv(('data-raw/kristen_cause_types.csv'))
+kristen_cause_types_clean <- read_csv('data-raw/kristen_cause_types.csv')
 
 
 tmp <- left_join(caitlin_cause_types[c('id', 'Cause_type')], kristen_cause_types_clean, by='id')
@@ -665,6 +663,7 @@ cause_types <- function(v){
     }
     return(l1)
 }
+
 ctcomparison <- function(x){
     total_causes <- c()
     matching_causes <- c()
@@ -699,7 +698,7 @@ names(l1) <- tmp$id
 l2 <- cause_types(tmp$Cause_type2)
 names(l2) <- tmp$id
 
-l_final <- cause_types(causetypes$Cause_type2)
+l_final <- cause_types(causetypes_raw$Cause_type2)
 names(l_final) <- tmp$id
 
 substitutions <- c(
@@ -725,8 +724,7 @@ substitutions <- c(
     'disappointment in ma' = 'disappointment in marriage',
     'anomie/social tensio' = 'anomie/social tension',
     'bring in cowife' = 'cowife',
-    'failed romantic rela' = 'failed romantic relationship',
-    
+    'failed romantic rela' = 'failed romantic relationship'
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -818,8 +816,9 @@ for (i in 1:length(l_final)) {
 cause_groups <- c(
 
     # generalized conflict
-    'conflict' = 'conflict', 
-    
+    'conflict' = 'conflict',
+    'betrayal' = 'conflict',
+
     # issues of mating
     'incest' = 'mating',  # added clan incest distinct from incest
     'clan incest' = 'mating',
@@ -853,23 +852,20 @@ cause_groups <- c(
     # issues related to being a burden on others
     'fear of harming others' = 'burden on others',  
     'burdensomeness' = 'burden on others',
-    'failure/sense of failure' = 'burden on others',
     'fail_others' = 'burden on others',
     'squandered_resources' = 'burden on others', # since extracts are more about impact of loss on others
    
-    # demoted social status
+    # Threat to, or loss of social status
     'thwarted status' = 'loss of social position',
     'loss of status' = 'loss of social position',
     'loss_social_position' = 'loss of social position',
     'loss_position' = 'loss of social position',      # could also be loss of resources
-    
-    # alienated from social group
-    'ostracism' = 'social estrangement',
-    'public_humiliation' = 'social estrangement',
-    'ridicule' = 'social estrangement',
-    'social_condemnation' = 'social estrangement',
-    'alienation' = 'social estrangement',
-    'betrayal' = 'social estrangement', 
+    'failure/sense of failure' = 'loss of social position',
+    'public_humiliation' = 'loss of social position',
+    'ridicule' = 'loss of social position',
+    'social_condemnation' = 'loss of social position',
+    'ostracism' = 'loss of social position',
+    'alienation' = 'loss of social position',
     
     # social unrest resutling from conflict with external groups or colonial powers
     'military_defeat' = 'between group conflict',
@@ -882,7 +878,7 @@ cause_groups <- c(
     'labor exploitation' = 'loss of autonomy/mobility',
     'enslavement_capture' = 'loss of autonomy/mobility',
     'imprisonment' = 'loss of autonomy/mobility',
-    
+
     # inflicted physical bodily harm or death
     'physical abuse' = 'physical harm to victim',
     'bodily trauma' = 'physical harm to victim',
@@ -906,7 +902,7 @@ cause_groups <- c(
     'neglect' = 'child/adolescent parental conflict',
     'childhood_disobedience' = 'child/adolescent parental conflict',
     'strike_parents' = 'child/adolescent parental conflict',
-    
+
     # loss of social partner through death or relationship defection
     'death_loved_one' = 'social partner loss',
     'trauma to loved one' = 'social partner loss',
@@ -930,8 +926,7 @@ cause_groups <- c(
     'fear of punishment' = 'an unknown punishment',
     'unknown punishment' = 'an unknown punishment',
     'arrogance' = 'unknown', # based on a cultural model
-    'unknown' = 'unknown',
-    
+    'unknown' = 'unknown'
 )
 
 a1 <- lapply(l1, function(x) unique(cause_groups[x]))
@@ -979,4 +974,3 @@ causegroups <- a3
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
 save(causetypes_raw, causetypes, causegroups, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
-
