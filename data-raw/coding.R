@@ -818,8 +818,9 @@ for (i in 1:length(l_final)) {
 cause_groups <- c(
 
     # generalized conflict
-    'conflict' = 'conflict', 
-    
+    'conflict' = 'conflict',
+    'betrayal' = 'conflict',
+
     # issues of mating
     'incest' = 'mating',  # added clan incest distinct from incest
     'clan incest' = 'mating',
@@ -853,23 +854,20 @@ cause_groups <- c(
     # issues related to being a burden on others
     'fear of harming others' = 'burden on others',  
     'burdensomeness' = 'burden on others',
-    'failure/sense of failure' = 'burden on others',
     'fail_others' = 'burden on others',
     'squandered_resources' = 'burden on others', # since extracts are more about impact of loss on others
    
-    # demoted social status
+    # Threat to, or loss of social status
     'thwarted status' = 'loss of social position',
     'loss of status' = 'loss of social position',
     'loss_social_position' = 'loss of social position',
     'loss_position' = 'loss of social position',      # could also be loss of resources
-    
-    # alienated from social group
-    'ostracism' = 'social estrangement',
-    'public_humiliation' = 'social estrangement',
-    'ridicule' = 'social estrangement',
-    'social_condemnation' = 'social estrangement',
-    'alienation' = 'social estrangement',
-    'betrayal' = 'social estrangement', 
+    'failure/sense of failure' = 'loss of social position',
+    'public_humiliation' = 'loss of social position',
+    'ridicule' = 'loss of social position',
+    'social_condemnation' = 'loss of social position',
+    'ostracism' = 'loss of social position',
+    'alienation' = 'loss of social position',
     
     # social unrest resutling from conflict with external groups or colonial powers
     'military_defeat' = 'between group conflict',
@@ -906,7 +904,7 @@ cause_groups <- c(
     'neglect' = 'child/adolescent parental conflict',
     'childhood_disobedience' = 'child/adolescent parental conflict',
     'strike_parents' = 'child/adolescent parental conflict',
-    
+
     # loss of social partner through death or relationship defection
     'death_loved_one' = 'social partner loss',
     'trauma to loved one' = 'social partner loss',
