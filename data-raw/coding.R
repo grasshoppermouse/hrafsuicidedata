@@ -869,7 +869,6 @@ cause_groups <- c(
     
     'labor exploitation' = 'loss of autonomy /mobility',
     'enslavement_capture' = 'loss of autonomy /mobility',
-    'imprisonment' = 'loss of autonomy /mobility', 
     
     'physical abuse' = 'physical harm',
     'bodily trauma' = 'physical harm',
@@ -890,7 +889,9 @@ cause_groups <- c(
     
     'unknown' = 'unknown',
     'conflict' = 'conflict',
-    'unknown punishment' = 'punishment'
+    
+    'unknown punishment' = 'punishment',
+    'imprisonment' = 'punishment' 
 )
 
 a1 <- lapply(l1, function(x) unique(cause_groups[x]))
