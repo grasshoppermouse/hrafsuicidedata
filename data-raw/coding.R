@@ -718,11 +718,15 @@ substitutions <- c(
     'infirmity' = 'illness',
     'thwarted_status' = 'loss_social_position',
     'commit adultry' = 'commit adultery',
-    'failure or sense of ' = 'failure or sense of',
+    'failure or sense of' = 'failure/sense of failure',
     'inability to have ch' = 'infertility',
     'psychological distre' = 'psychological distress',
     'failed romantic rela' = 'failed romantic relationship',
-    'disappointment in ma' = 'disappointment in marriage'
+    'disappointment in ma' = 'disappointment in marriage',
+    'anomie/social tensio' = 'anomie/social tension',
+    'bring in cowife' = 'cowife',
+    'failed romantic rela' = 'failed romantic relationship',
+    
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -807,17 +811,16 @@ for (i in 1:length(l_final)) {
     
 }
 
-# Cause groups
+# Cause groups--groups in terms of impact on fitness
 
-# cause_groups <- list(
-#     'mating' = c('incest', 'unfaithful spouse', 'rape', 'failed romantic rela', 'disappointment in ma', 'divorce or attempted', 'thwarted marriage', 'forced marriage', 'bring in cowife'),
-#     'reproduction' = c('pregnancy', 'loss of children', 'inability to have ch'),
-#     'resources' = c('natural disaster', 'owed debt', 'fear of loss', 'resource_loss')
-#     )
 
 # left: original cause type. right: new, more general cause group
 cause_groups <- c(
+
+    # generalized conflict
+    'conflict' = 'conflict', 
     
+    # issues of mating
     'incest' = 'mating',  # added clan incest distinct from incest
     'clan incest' = 'mating',
     ' clan incest' = 'mating',
@@ -829,69 +832,105 @@ cause_groups <- c(
     'divorce or attempted' = 'mating',
     'thwarted marriage' = 'mating',
     'forced marriage' = 'mating',
-    'bring in cowife' = 'mating',
+    'cowife' = 'mating',
     'inability to marry' = 'mating',
     'adultery' = 'mating',
-    'commit adultery' = 'mating',
+    'commit adultery' = 'mating', 
+    'sexual_taboo' = 'mating',
     
+    # issues of reproduction
     'pregnancy' = 'reproduction',
     'loss of children' = 'reproduction',
     'infertility' = 'reproduction',
     
-    'natural disaster' = 'resources', # Good categorization?
-    'owed debt' = 'resources',
-    'fear of loss' = 'resources',
-    'resource_loss' = 'resources',
-    'fine' = 'resources',
+    # resource loss
+    'natural disaster' = 'resource loss', # Good categorization?
+    'owed debt' = 'resource loss',
+    'fear of loss' = 'resource loss',
+    'resource_loss' = 'resource loss',
+    'fine' = 'resource loss',
     
-    'fear of harming othe' = 'burden on others',  # Good categorization?
+    # issues related to being a burden on others
+    'fear of harming others' = 'burden on others',  
     'burdensomeness' = 'burden on others',
-    'failure or sense of' = 'burden on others',
-
-    'betrayal' = 'social partners/group',
-    'fear of revenge' = 'social partners/group',
-    'loss_social_partner' = 'social partners/group',
+    'failure/sense of failure' = 'burden on others',
+    'fail_others' = 'burden on others',
+    'squandered_resources' = 'burden on others', # since extracts are more about impact of loss on others
    
+    # demoted social status
     'thwarted status' = 'loss of social position',
     'loss of status' = 'loss of social position',
-    'ostracism' = 'loss of social position',
-    'public_humiliation' = 'loss of social position',
-    'ridicule' = 'loss of social position',
-    'social_condemnation' = 'loss of social position',
     'loss_social_position' = 'loss of social position',
-    'loss_position' = 'loss of social position',
-    'alienation' = 'loss of social position',
+    'loss_position' = 'loss of social position',      # could also be loss of resources
     
-    'anomie/social tensio' = 'between group conflict',
+    # alienated from social group
+    'ostracism' = 'social estrangement',
+    'public_humiliation' = 'social estrangement',
+    'ridicule' = 'social estrangement',
+    'social_condemnation' = 'social estrangement',
+    'alienation' = 'social estrangement',
+    'betrayal' = 'social estrangement', 
+    
+    # social unrest resutling from conflict with external groups or colonial powers
     'military_defeat' = 'between group conflict',
     'political unrest' = 'between group conflict',
     'warn others' = 'between group conflict',
+    'anomie/social tensio' = 'between group conflict',
+    'nonconversion' = 'between group conflict',
     
-    'labor exploitation' = 'loss of autonomy /mobility',
-    'enslavement_capture' = 'loss of autonomy /mobility',
+    # issues of confinement--can't invest elsewhere
+    'labor exploitation' = 'loss of autonomy/mobility',
+    'enslavement_capture' = 'loss of autonomy/mobility',
+    'imprisonment' = 'loss of autonomy/mobility',
+
+    # inflicted physical bodily harm or death
+    'physical abuse' = 'physical harm to victim',
+    'bodily trauma' = 'physical harm to victim',
+    'disfigurement' = 'physical harm to victim',
+    'nonlethal_physical' = 'physical harm to victim',
+    'death penalty' = 'physical harm to victim',
     
-    'physical abuse' = 'physical harm',
-    'bodily trauma' = 'physical harm',
-    'disfigurement' = 'physical harm',
-    'nonlethal_physical' = 'physical harm',
-    
+    # physical illness
     'illness' = 'illness',
     'disease outbreak' = 'illness',
     
-    'psychological distress' = 'psychological distress',
-    'boredom' = 'psychological distress',
+    # mental health issues
+    'psychological distress' = 'mental health',
+    'boredom' = 'mental health',
+    'drunkenness' = 'mental health',
     
+    # a pervasive cultural model
     'spirit_attack' = 'spirit attack',
-    'neglect' = 'parental neglect',
     
-    'death_loved_one' = 'death of a loved one',
-    'trauma to loved one' = 'death of a loved one',
+    # conflict between children/adolescents and parents
+    'neglect' = 'child/adolescent parental conflict',
+    'childhood_disobedience' = 'child/adolescent parental conflict',
+    'strike_parents' = 'child/adolescent parental conflict',
     
-    'unknown' = 'unknown',
-    'conflict' = 'conflict',
+    # loss of social partner through death or relationship defection
+    'death_loved_one' = 'social partner loss',
+    'trauma to loved one' = 'social partner loss',
+    'loss_social_partner' = 'social partner loss',
     
-    'unknown punishment' = 'punishment',
-    'imprisonment' = 'punishment' 
+    # the victim physically harmed others
+    'manslaughter' = 'physically harm others',
+    'murder' = 'physically harm others',
+    'physical_attack' = 'physically harm others',
+    'attempted_murder' = 'physically harm others',
+    'threaten_murder' = 'physically harm others',
+    
+    # too complex to lump in with anything else
+    'witchcraft' = 'witchcraft', 
+    
+    # social faux pas
+    'public_flatulence' = 'social faux pas',
+    'disrespect_ritual' = 'social faux pas',
+    
+    # unknown or a lack of information to categorize it
+    'fear of punishment' = 'an unknown punishment',
+    'unknown punishment' = 'an unknown punishment',
+    'arrogance' = 'unknown', # based on a cultural model
+    'unknown' = 'unknown'
 )
 
 a1 <- lapply(l1, function(x) unique(cause_groups[x]))
