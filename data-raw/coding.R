@@ -609,7 +609,7 @@ coltypes <- c(id = 'text',
               unjustly_accused_punished = 'numeric')
 
 apology <- read_csv("data-raw/Caitlin Kristen Reconciliation.csv")
-causetypes_raw <- read_csv("data-raw/CauseTypesFinal.csv") ### Final
+causetypes_raw <- read_tsv("data-raw/CauseTypesFinal.csv") ### Final
 
 #check coding is identical
 syme <- apology[apology$coder == 'syme', -c(2, 5)]
@@ -699,7 +699,7 @@ l2 <- cause_types(tmp$Cause_type2)
 names(l2) <- tmp$id
 
 l_final <- cause_types(causetypes_raw$Cause_type2)
-names(l_final) <- tmp$id
+names(l_final) <- causetypes_raw$id
 
 substitutions <- c(
     'fear of supernatural' = 'spirit_attack',
