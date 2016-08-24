@@ -862,7 +862,7 @@ cause_groups <- c(
     'loss_social_position' = 'loss of social position',
     'loss_position' = 'loss of social position',      # could also be loss of resources
     'failure/sense of failure' = 'loss of social position',
-    'public humiliation' = 'loss of social position',
+    'public_humiliation' = 'loss of social position',
     'ridicule' = 'loss of social position',
     'social_condemnation' = 'loss of social position',
     'ostracism' = 'loss of social position',
@@ -872,7 +872,7 @@ cause_groups <- c(
     'military_defeat' = 'between group conflict',
     'political unrest' = 'between group conflict',
     'warn others' = 'between group conflict',
-    'anomie/social tensio' = 'between group conflict',
+    'anomie/social tension' = 'between group conflict',
     'nonconversion' = 'between group conflict',
     
     # issues of confinement--can't invest elsewhere
@@ -924,8 +924,9 @@ cause_groups <- c(
     'disrespect_ritual' = 'social faux pas',
     
     # unknown or a lack of information to categorize it
-    'fear of punishment' = 'an unknown punishment',
-    'unknown punishment' = 'an unknown punishment',
+    'fear of punishment' = 'unspecified punishment',
+    'unknown punishment' = 'unspecified punishment',
+    'fear of revenge' = 'unspecified punishment',
     'arrogance' = 'unknown', # based on a cultural model
     'unknown' = 'unknown'
 )
