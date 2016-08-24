@@ -704,8 +704,8 @@ names(l_final) <- causetypes_raw$id
 substitutions <- c(
     'fear of supernatural' = 'spirit_attack',
     'family tension' = 'interpersonal_confli',
-    'emotional distress' = 'psychological distre',
-    'mental illness' = 'psychological distre',
+    'emotional distress' = 'psychological distress',
+    'mental illness' = 'psychological distress',
     'loneliness' = 'alienation',
     'fear of imprisonment' = 'enslavement_capture',
     'fear of enslavement' = 'enslavement_capture',
@@ -724,7 +724,8 @@ substitutions <- c(
     'disappointment in ma' = 'disappointment in marriage',
     'anomie/social tensio' = 'anomie/social tension',
     'bring in cowife' = 'cowife',
-    'failed romantic rela' = 'failed romantic relationship'
+    'failed romantic rela' = 'failed romantic relationship', 
+    ' clan incest' = 'clan incest'
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -804,7 +805,7 @@ for (i in 1:length(l_final)) {
     }    
     
     if (row2$punishment_type != 'na'){
-        l_final[[i]] <- c(l_final[[i]], row2$punishment_type)
+        l_final[[i]] <- c(l_final[[i]], str_split(row2$punishment_type, ',')[[1]])
     }
     
 }
@@ -861,7 +862,7 @@ cause_groups <- c(
     'loss_social_position' = 'loss of social position',
     'loss_position' = 'loss of social position',      # could also be loss of resources
     'failure/sense of failure' = 'loss of social position',
-    'public_humiliation' = 'loss of social position',
+    'public humiliation' = 'loss of social position',
     'ridicule' = 'loss of social position',
     'social_condemnation' = 'loss of social position',
     'ostracism' = 'loss of social position',
