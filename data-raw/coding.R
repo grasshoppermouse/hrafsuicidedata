@@ -706,6 +706,8 @@ substitutions <- c(
     'family tension' = 'interpersonal_confli',
     'emotional distress' = 'psychological distre',
     'mental illness' = 'psychological distre',
+    'emotional distress' = 'psychological distress',
+    'mental illness' = 'psychological distress',
     'loneliness' = 'alienation',
     'fear of imprisonment' = 'enslavement_capture',
     'fear of enslavement' = 'enslavement_capture',
@@ -725,6 +727,8 @@ substitutions <- c(
     'anomie/social tensio' = 'anomie/social tension',
     'bring in cowife' = 'cowife',
     'failed romantic rela' = 'failed romantic relationship'
+    'failed romantic rela' = 'failed romantic relationship', 
+    ' clan incest' = 'clan incest'
 )
 
 l1 <- rcd2(l1, substitutions)
@@ -805,6 +809,7 @@ for (i in 1:length(l_final)) {
     
     if (row2$punishment_type != 'na'){
         l_final[[i]] <- c(l_final[[i]], row2$punishment_type)
+        l_final[[i]] <- c(l_final[[i]], str_split(row2$punishment_type, ',')[[1]])
     }
     
 }
@@ -872,6 +877,7 @@ cause_groups <- c(
     'political unrest' = 'between group conflict',
     'warn others' = 'between group conflict',
     'anomie/social tensio' = 'between group conflict',
+    'anomie/social tension' = 'between group conflict',
     'nonconversion' = 'between group conflict',
     
     # issues of confinement--can't invest elsewhere
@@ -925,6 +931,9 @@ cause_groups <- c(
     # unknown or a lack of information to categorize it
     'fear of punishment' = 'an unknown punishment',
     'unknown punishment' = 'an unknown punishment',
+    'fear of punishment' = 'unspecified punishment',
+    'unknown punishment' = 'unspecified punishment',
+    'fear of revenge' = 'unspecified punishment',
     'arrogance' = 'unknown', # based on a cultural model
     'unknown' = 'unknown'
 )
