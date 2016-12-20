@@ -704,8 +704,6 @@ names(l_final) <- causetypes_raw$id
 substitutions <- c(
     'fear of supernatural' = 'spirit_attack',
     'family tension' = 'interpersonal_confli',
-    'emotional distress' = 'psychological distre',
-    'mental illness' = 'psychological distre',
     'emotional distress' = 'psychological distress',
     'mental illness' = 'psychological distress',
     'loneliness' = 'alienation',
@@ -726,7 +724,6 @@ substitutions <- c(
     'disappointment in ma' = 'disappointment in marriage',
     'anomie/social tensio' = 'anomie/social tension',
     'bring in cowife' = 'cowife',
-    'failed romantic rela' = 'failed romantic relationship'
     'failed romantic rela' = 'failed romantic relationship', 
     ' clan incest' = 'clan incest'
 )
@@ -808,7 +805,6 @@ for (i in 1:length(l_final)) {
     }    
     
     if (row2$punishment_type != 'na'){
-        l_final[[i]] <- c(l_final[[i]], row2$punishment_type)
         l_final[[i]] <- c(l_final[[i]], str_split(row2$punishment_type, ',')[[1]])
     }
     
@@ -876,7 +872,6 @@ cause_groups <- c(
     'military_defeat' = 'between group conflict',
     'political unrest' = 'between group conflict',
     'warn others' = 'between group conflict',
-    'anomie/social tensio' = 'between group conflict',
     'anomie/social tension' = 'between group conflict',
     'nonconversion' = 'between group conflict',
     
@@ -929,8 +924,6 @@ cause_groups <- c(
     'disrespect_ritual' = 'social faux pas',
     
     # unknown or a lack of information to categorize it
-    'fear of punishment' = 'an unknown punishment',
-    'unknown punishment' = 'an unknown punishment',
     'fear of punishment' = 'unspecified punishment',
     'unknown punishment' = 'unspecified punishment',
     'fear of revenge' = 'unspecified punishment',
