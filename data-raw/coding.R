@@ -779,7 +779,7 @@ bad_causetypes <- c('failed expectations',
                     'interpersonal_confli', 
                     'family shame', 
                     'bad luck', 
-                    'commit adultry', 
+                    'commit adultery', 
                     'imprisonment',
                     'public humiliation',
                     "")
