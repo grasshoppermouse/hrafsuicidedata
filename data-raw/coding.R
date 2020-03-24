@@ -975,4 +975,9 @@ causetypes <- l_final
 causegroups <- a3
 
 #a,b,c,d,e,f,h,i,j,k make no sense (replication of c) in kristen cause types, need to recode
-save(causetypes_raw, causetypes, causegroups, coding, coding2, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
+
+# codingextra: cases in lengthy documents on suicide
+
+codingextra <- read_excel('data-raw/Missing suicide data.xlsx')
+
+save(causetypes_raw, causetypes, causegroups, coding, coding2, codingextra, apology, apology_raw, apology_unreconciled, file = "data/coding.RData", compress = "xz")
