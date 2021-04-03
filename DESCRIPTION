@@ -1,7 +1,7 @@
 Package: hrafsuicidedata
 Type: Package
 Title: Data on suicide in the probability sample
-Version: 1.0
+Version: 1.1
 Date: 2015-05-02
 Author: Kristen Syme, Zachary Garfield, Ed Hagen
 Maintainer: Ed Hagen <ehagen@gmail.com>
@@ -10,4 +10,6 @@ Description: For details, see Syme, Garfield and Hagen. Testing the bargaining
     record. http://dx.doi.org/10.1016/j.evolhumbehav.2015.10.005
 License: CC BY
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)

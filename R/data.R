@@ -189,3 +189,18 @@
 #' A list of cause groups. Names are extract id's
 #' 
 "causegroups"
+
+#' @title cdc2
+#' @description US suicide attempt and completion rates 1999-2019
+#' @format A data frame with 72 rows and 7 variables:
+#' \describe{
+#'   \item{\code{Sex}}{character Sex}
+#'   \item{\code{Age}}{double Age (midpoint of age group)}
+#'   \item{\code{Age Group}}{character Age group}
+#'   \item{\code{Number}}{double Number of attempts or completions}
+#'   \item{\code{Population}}{double Total US population for age group}
+#'   \item{\code{Crude Rate}}{double Rate}
+#'   \item{\code{Type}}{character injury (attempt) or death (completion)} 
+#'}
+#' @details From CDC WISQRS. Self-harm (all causes) Nonfatal Emergency Department Visits and Rates per 100,000 
+"cdc2"
