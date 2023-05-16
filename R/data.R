@@ -204,3 +204,21 @@
 #'}
 #' @details From CDC WISQRS. Self-harm (all causes) Nonfatal Emergency Department Visits and Rates per 100,000 
 "cdc2"
+
+#' @title cdc3
+#' @description US suicide attempt and completion rates 2001-2020
+#' @format A data frame with 12518 rows and 10 variables:
+#' \describe{
+#'   \item{\code{Type}}{character Injury (attempt) or death (completion)}
+#'   \item{\code{Year}}{double Year}
+#'   \item{\code{Age Group}}{character CDC age group}
+#'   \item{\code{Age}}{double Age is midpoint of CDC age groups}
+#'   \item{\code{Sex}}{character Females, Males}
+#'   \item{\code{Mechanism}}{character How the person was injured or died}
+#'   \item{\code{Number}}{double Number of cases}
+#'   \item{\code{Population}}{double Population size}
+#'   \item{\code{Crude Rate}}{double Rate}
+#'   \item{\code{Mechanism2}}{character Recoded Mechanism to aggregate similar categories} 
+#'}
+#' @details Downloaded from CDC WISQRS in May, 2023. Mechanism2 aggregated categories that typically only differed in spelling or use of spaces.
+"cdc3"
